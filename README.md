@@ -1,0 +1,2 @@
+# gasimp-app
+React native app for gasimp device. Gasimp is a smart gas level sensor for portable gas tanks
