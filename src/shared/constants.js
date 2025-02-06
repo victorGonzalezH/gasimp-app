@@ -4,7 +4,8 @@ export const KEY_TANK_TYPE = 'tankType';
 export const KEY_GAS_LEVEL_SUFFIX = 'gasLevelSuffix';
 export const KEY_HOSTNAME = 'hostname';
 export const KEY_TIMESTAMP = 'timeStamp';
-export const KEY_TIMEZONEOFFSET = 'timezoneoffset';
+export const KEY_WIFI_SSID = 'gasimp';
+export const KEY_WIFI_SECURITY = 'gasimp123';
 
 export const DEFAULT_GAS_LEVEL_SUFFIX = '%';
 export const SUCESS_ACTIVATED_CODE = '1';

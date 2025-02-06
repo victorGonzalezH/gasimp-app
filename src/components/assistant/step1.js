@@ -1,5 +1,5 @@
 /**
- * Comments on this file could be in english, espa;ol or spanglish :)
+ * Comments on this file could be in english, español or spanglish :)
  */
 import React, {useState} from 'react';
 import {
@@ -9,10 +9,14 @@ import {
   Image,
   TouchableHighlight,
   ActivityIndicator,
+  Button,
+  Alert,
 } from 'react-native';
+
 import axios from 'axios';
 import * as constants from '../../shared/constants';
 import storageService from '../../shared/storage-service';
+import WifiManager from 'react-native-wifi-reborn';
 
 /**
  * Verify the connection with the sensor device
@@ -36,12 +40,27 @@ const checkConnection = async (timeStampValue, timeOffsetValue) => {
   );
 };
 
+const noWifiSensorConnectionConfirmAlert = () =>
+  Alert.alert(
+    'Gasimp',
+    'No se ha podido conectar al sensor, revise si está encendido y en modo sincronización',
+    [{text: 'OK', onPress: () => {}, style: 'default'}],
+  );
+
 const Step1 = ({navigation}) => {
   const [busy, setBusy] = useState(false);
+  const [ssid, setSsid] = useState(constants.KEY_WIFI_SSID);
+  const [security_key, setSecurityKey] = useState(constants.KEY_WIFI_SECURITY);
 
   const onPress = async () => {
     setBusy(true);
     try {
+      await WifiManager.connectToProtectedSSID(
+        ssid,
+        security_key,
+        false,
+        false,
+      );
       const timestamp = Date.now();
       const date = new Date();
       const timeOffsetInSeconds = date.getTimezoneOffset() * 60;
@@ -66,6 +85,7 @@ const Step1 = ({navigation}) => {
       }
     } catch (exception) {
       setBusy(false);
+      noWifiSensorConnectionConfirmAlert();
     }
   };
   return (
@@ -86,9 +106,9 @@ const Step1 = ({navigation}) => {
       </View>
       <View style={styles.message}>
         <Text style={styles.messageTextView}>
-          Asegúrese de que su sensor este encendido y se encuentre cerca de él.
-          El sensor creará una red temporal para que usted se conecte desde su
-          teléfono y lo pueda configurar.
+          Asegúrese de que el sensor este encendido y se encuentre cerca de él.
+          El sensor creará una red wifi temporal a la cual su celular se
+          conectará Haga click en el botón para iniciar la conexión.
         </Text>
       </View>
       <Text style={styles.wifiDataTextView}>Red: gasimp</Text>
@@ -97,7 +117,7 @@ const Step1 = ({navigation}) => {
       <View style={styles.buttonView}>
         <TouchableHighlight onPress={onPress}>
           <View style={styles.button}>
-            <Text style={{fontWeight: 'bold'}}>Verificar</Text>
+            <Text style={{fontWeight: 'bold'}}>Conectar</Text>
           </View>
         </TouchableHighlight>
       </View>
