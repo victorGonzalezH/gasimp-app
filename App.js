@@ -11,9 +11,6 @@ import Default from './src/components/default/default';
 import storageService from './src/shared/storage-service';
 import * as constants from './src/shared/constants';
 
-/* $FlowFixMe[missing-local-annot] The type annotation(s) required by Flow's
- * LTI update could not be added via codemod */
-
 const App = () => {
   const [activated, setActivated] = useState();
 
